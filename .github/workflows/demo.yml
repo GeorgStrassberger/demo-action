@@ -7,15 +7,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  commands:
+  show-commands:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Say Hallo World
+        run: echo "Hallo World"
 
-      - name: Run demo commands
-        run: |
-          echo "Hello, World!"
-          echo "This is a demo workflow."
-          date
-          uname -a
+      - name: Multiple commands over SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            whoami
+            ls -al
